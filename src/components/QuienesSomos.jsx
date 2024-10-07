@@ -30,7 +30,7 @@ const QuienesSomos = () => {
           </div>
           <h3 className="text-xl font-semibold mb-4 text-gray-800">Nuestro Equipo</h3>
           <p className="text-stone-950">
-            Contamos con un equipo altamente capacitado en áreas como desarrollo frontend, backend, ciberseguridad e inteligencia artificial. Enfrentamos cada desafío con soluciones innovadoras.
+            Contamos con un equipo altamente capacitado en áreas como desarrollo Frontend, Backend, Ciberseguridad e inteligencia artificial. Enfrentamos cada desafío con soluciones innovadoras.
           </p>
         </div>
 

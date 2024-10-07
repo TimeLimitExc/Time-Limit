@@ -13,15 +13,37 @@ const Header = () => {
   };
 
   const scrollToSection = (id) => {
-    const section = document.querySelector(id);
+    const section = document.getElementById(id.replace('#', ''));
     if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
+      const targetPosition = section.offsetTop;
+      const startPosition = window.pageYOffset;
+      const distance = targetPosition - startPosition;
+      const duration = 500; // Duración del desplazamiento en ms
+      let startTime = null;
+
+      const step = (currentTime) => {
+        if (!startTime) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const run = easeInOutQuad(timeElapsed, startPosition, distance, duration);
+        window.scrollTo(0, run);
+        if (timeElapsed < duration) requestAnimationFrame(step); // Continuar hasta completar la animación
+      };
+
+      // Función de aceleración y desaceleración
+      const easeInOutQuad = (t, b, c, d) => {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+      };
+
+      requestAnimationFrame(step);
     }
     closeMenu(); // Cierra el menú después de hacer scroll
   };
 
   return (
-    <header className="bg-indigo-900 opacity-90 fixed top-0 left-0 w-full z-50">
+    <header className="bg-indigo-900 fixed top-0 left-0 w-full z-50">
       <nav className="py-4 px-4 text-white flex items-center justify-between">
         <div className="flex items-center">
           <button onClick={toggleMenu} className="focus:outline-none">
@@ -47,24 +69,46 @@ const Header = () => {
         </div>
 
         <div className="hidden md:flex space-x-6 text-center flex-grow justify-center">
-          <button onClick={() => scrollToSection("#informacion")} className="hover:text-neutral-950 transition-colors duration-200 ease-in-out text-lg">
+          {/* Botones del navbar con hover */}
+          <button 
+            onClick={() => scrollToSection("#informacion")} 
+            className="text-lg relative group"
+          >
             Inicio
+            <span className="block h-1 w-0 bg-white group-hover:w-full transition-all duration-300"></span>
           </button>
-          <button onClick={() => scrollToSection("#quienes-somos")} className="hover:text-neutral-950 transition-colors duration-200 ease-in-out text-lg">
+          <button 
+            onClick={() => scrollToSection("#quienes-somos")} 
+            className="text-lg relative group"
+          >
             ¿Quiénes Somos?
+            <span className="block h-1 w-0 bg-white group-hover:w-full transition-all duration-300"></span>
           </button>
-          <button onClick={() => scrollToSection("#proyectos")} className="hover:text-neutral-950 transition-colors duration-200 ease-in-out text-lg">
+          <button 
+            onClick={() => scrollToSection("#proyectos")} 
+            className="text-lg relative group"
+          >
             Proyectos
+            <span className="block h-1 w-0 bg-white group-hover:w-full transition-all duration-300"></span>
           </button>
-          <button onClick={() => scrollToSection("#nuestros-servicios")} className="hover:text-neutral-950 transition-colors duration-200 ease-in-out text-lg">
+          <button 
+            onClick={() => scrollToSection("#nuestros-servicios")} 
+            className="text-lg relative group"
+          >
             Nuestros Servicios
+            <span className="block h-1 w-0 bg-white group-hover:w-full transition-all duration-300"></span>
           </button>
-          <button onClick={() => scrollToSection("#contacto")} className="hover:text-neutral-950 transition-colors duration-200 ease-in-out text-lg">
+          <button 
+            onClick={() => scrollToSection("#contacto")} 
+            className="text-lg relative group"
+          >
             Contacto
+            <span className="block h-1 w-0 bg-white group-hover:w-full transition-all duration-300"></span>
           </button>
         </div>
       </nav>
 
+     
       <div
         className={`fixed inset-0 bg-indigo-800 text-white flex flex-col items-start justify-start pt-12 pl-4 ${menuOpen ? 'flex' : 'hidden'}`}
       >
@@ -84,35 +128,20 @@ const Header = () => {
             />
           </svg>
         </button>
-        <button onClick={() => scrollToSection("#informacion")} className="block py-2 text-xl hover:text-neutral-950 transition-colors duration-200 ease-in-out flex items-center">
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Inicio
+        <button onClick={() => scrollToSection("#informacion")} className="block py-2 text-xl">
+          Inicio +
         </button>
-        <button onClick={() => scrollToSection("#quienes-somos")} className="block py-2 text-xl hover:text-neutral-950 transition-colors duration-200 ease-in-out flex items-center">
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          ¿Quiénes Somos?
+        <button onClick={() => scrollToSection("#quienes-somos")} className="block py-2 text-xl">
+          ¿Quiénes Somos? +
         </button>
-        <button onClick={() => scrollToSection("#proyectos")} className="block py-2 text-xl hover:text-neutral-950 transition-colors duration-200 ease-in-out flex items-center">
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Proyectos
+        <button onClick={() => scrollToSection("#proyectos")} className="block py-2 text-xl">
+          Proyectos +
         </button>
-        <button onClick={() => scrollToSection("#nuestros-servicios")} className="block py-2 text-xl hover:text-neutral-950 transition-colors duration-200 ease-in-out flex items-center">
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Nuestros Servicios
+        <button onClick={() => scrollToSection("#nuestros-servicios")} className="block py-2 text-xl">
+          Nuestros Servicios +
         </button>
-        <button onClick={() => scrollToSection("#contacto")} className="block py-2 text-xl hover:text-neutral-950 transition-colors duration-200 ease-in-out flex items-center">
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Contacto
+        <button onClick={() => scrollToSection("#contacto")} className="block py-2 text-xl">
+          Contacto +
         </button>
       </div>
     </header>

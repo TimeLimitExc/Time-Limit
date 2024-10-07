@@ -33,7 +33,7 @@ const Servicios = () => {
   return (
     <section className="bg-gray-100 py-12" id="nuestros-servicios">
       <div className="container mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-8 mt-20">¡Servicios!</h2>
+        <h2 className="text-3xl font-bold text-center mb-8 mt-20">Servicios</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {serviciosData.map((servicio, index) => (
             <div key={index} className="bg-white p-6 rounded-lg shadow-lg text-center">
